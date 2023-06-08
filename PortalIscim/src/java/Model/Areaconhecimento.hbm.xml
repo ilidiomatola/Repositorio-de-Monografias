@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 09/06/2023 00:04:06 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="Model.Curso" table="curso" catalog="gestao_rpmonografia" optimistic-lock="version">
+    <class name="Model.Areaconhecimento" table="areaconhecimento" catalog="gestao_rpmonografia" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
@@ -13,7 +13,7 @@
         </property>
         <set name="monografias" table="monografia" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="id_curso" />
+                <column name="id_area_conhecimento" />
             </key>
             <one-to-many class="Model.Monografia" />
         </set>

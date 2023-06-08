@@ -1,5 +1,5 @@
 package Model;
-// Generated May 29, 2023 8:53:59 AM by Hibernate Tools 4.3.1
+// Generated 09/06/2023 00:04:05 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -10,31 +10,63 @@ import java.util.Date;
 public class Monografia  implements java.io.Serializable {
 
 
-     private int idMonografia;
+     private Integer id;
+     private Areaconhecimento areaconhecimento;
+     private Curso curso;
+     private Usuario usuario;
      private String titulo;
-     private String autorId;
-     private Date dataCadastro;
+     private String assunto;
+     private String autor;
+     private Date dataPublicacao;
+     private byte[] monografia;
 
     public Monografia() {
     }
 
 	
-    public Monografia(int idMonografia) {
-        this.idMonografia = idMonografia;
+    public Monografia(String titulo, String assunto, String autor) {
+        this.titulo = titulo;
+        this.assunto = assunto;
+        this.autor = autor;
     }
-    public Monografia(int idMonografia, String titulo, String autorId, Date dataCadastro) {
-       this.idMonografia = idMonografia;
+    public Monografia(Areaconhecimento areaconhecimento, Curso curso, Usuario usuario, String titulo, String assunto, String autor, Date dataPublicacao, byte[] monografia) {
+       this.areaconhecimento = areaconhecimento;
+       this.curso = curso;
+       this.usuario = usuario;
        this.titulo = titulo;
-       this.autorId = autorId;
-       this.dataCadastro = dataCadastro;
+       this.assunto = assunto;
+       this.autor = autor;
+       this.dataPublicacao = dataPublicacao;
+       this.monografia = monografia;
     }
    
-    public int getIdMonografia() {
-        return this.idMonografia;
+    public Integer getId() {
+        return this.id;
     }
     
-    public void setIdMonografia(int idMonografia) {
-        this.idMonografia = idMonografia;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Areaconhecimento getAreaconhecimento() {
+        return this.areaconhecimento;
+    }
+    
+    public void setAreaconhecimento(Areaconhecimento areaconhecimento) {
+        this.areaconhecimento = areaconhecimento;
+    }
+    public Curso getCurso() {
+        return this.curso;
+    }
+    
+    public void setCurso(Curso curso) {
+        this.curso = curso;
+    }
+    public Usuario getUsuario() {
+        return this.usuario;
+    }
+    
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
     public String getTitulo() {
         return this.titulo;
@@ -43,19 +75,33 @@ public class Monografia  implements java.io.Serializable {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    public String getAutorId() {
-        return this.autorId;
+    public String getAssunto() {
+        return this.assunto;
     }
     
-    public void setAutorId(String autorId) {
-        this.autorId = autorId;
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
-    public Date getDataCadastro() {
-        return this.dataCadastro;
+    public String getAutor() {
+        return this.autor;
     }
     
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+    public Date getDataPublicacao() {
+        return this.dataPublicacao;
+    }
+    
+    public void setDataPublicacao(Date dataPublicacao) {
+        this.dataPublicacao = dataPublicacao;
+    }
+    public byte[] getMonografia() {
+        return this.monografia;
+    }
+    
+    public void setMonografia(byte[] monografia) {
+        this.monografia = monografia;
     }
 
 

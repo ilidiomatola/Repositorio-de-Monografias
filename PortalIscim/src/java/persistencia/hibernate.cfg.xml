@@ -43,11 +43,11 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/universidade?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/gestao_rpmonografia?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-    <mapping resource="Model/Autor.hbm.xml"/>
-    <mapping resource="Model/Area.hbm.xml"/>
-    <mapping resource="Model/Curso.hbm.xml"/>
+    <mapping resource="Model/Usuario.hbm.xml"/>
     <mapping resource="Model/Monografia.hbm.xml"/>
+    <mapping resource="Model/Areaconhecimento.hbm.xml"/>
+    <mapping resource="Model/Curso.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
