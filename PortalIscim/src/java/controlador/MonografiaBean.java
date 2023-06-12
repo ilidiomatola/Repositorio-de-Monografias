@@ -6,7 +6,7 @@
 package controlador;
 
 import modelo.DAO.MonografiaDAO;
-import Modelo.entidade.Monografia;
+import modelo.entidade.Monografia;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.util.List;
