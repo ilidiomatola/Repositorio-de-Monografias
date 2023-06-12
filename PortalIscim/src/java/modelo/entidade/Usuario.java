@@ -1,4 +1,4 @@
-package Model;
+package Modelo.entidade;
 // Generated 09/06/2023 00:04:05 by Hibernate Tools 4.3.1
 
 
