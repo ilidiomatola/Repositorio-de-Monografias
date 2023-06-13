@@ -3,63 +3,181 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
-        <h:outputStylesheet>
-            library="css" name="meusestilo.css"
-        </h:outputStylesheet>
+        <title>Gestão de Monografias</title>
+        <h:outputScript library="js" name="app.js" target="head" />
+        <h:outputStylesheet library="css" name="estilo.css" />
         
-        
-        <title>Repositorio ISCIM</title>
+        <style>
+            .blue-div {
+                background-color: skyblue;
+                text-align: center;
+                padding-bottom: 5px;
+                padding-top: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .blue-div-p {
+                background-color: skyblue !important;
+                text-align: center !important;
+                padding-bottom: 5px !important;
+                padding-top: 5px !important;
+                margin-bottom: 7px !important;
+                margin-right: 10px !important;
+            }
+            
+            .red-div-p{
+                background-color: crimson !important;
+                text-align: center !important;
+                padding-bottom: 5px !important;
+                padding-top: 5px !important;
+                margin-bottom: 7px !important;
+                margin-right: 10px !important;
+            }
+            
+            .tbl{
+                margin-bottom: 5px !important;
+            }
+
+        </style>
     </h:head>
     <h:body>
-        <div class="card">
-    <h:form>
-        <p:growl id="messages"/>
+        <div class="blue-div">
+            <h1>Sistema de Gestão de Monografias</h1>
+        </div>
+        
+        <h:form enctype="multipart/form-data">
+            <p:commandButton class="blue-div-p" value="Cadastrar Monografia" actionListener="#{monografiaBean.limpiarMonografia()}" oncomplete="PF('moldalCadastrar').show();" update=":formCadastrar"/>
+            <p:commandButton class="blue-div-p" id="btnCursos" value="Gestão de Cursos" action="CRUD_Curso.xhtml" ajax="false" />
+            <p:commandButton  class="blue-div-p" id="btnAreas" value="Gestão Áreas de Conhecimento" action="CRUD_AreaConhecimento.xhtml" ajax="false" />
+            <p:separator/>
+        </h:form>
+        <h2>SGM - Tabela de Lista de Monografias</h2>
+         <h:form id="formListado" enctype="multipart/form-data">
+             <p:dataTable id="tablaMonografias" paginator="true" paginatorPosition="bottom" rows="10" var="monografia" value="#{monografiaBean.listaMonografias}" emptyMessage="Não existem Monografias Registadas">
+                            
+                            <p:column headerText="ID">
+                                <h:outputText value="#{monografia.id}" />
+                            </p:column>
+                            <p:column headerText="Título">
+                                <h:outputText value="#{monografia.titulo}" />
+                            </p:column>
+                            <p:column headerText="Assunto">
+                                <h:outputText value="#{monografia.assunto}" />
+                            </p:column>
+                            <p:column headerText="Autor">
+                                <h:outputText value="#{monografia.autor}" />
+                            </p:column>
+                            <p:column headerText="Data de Publicação:">
+                                <h:outputText value="#{monografia.dataPublicacao}" />
+                            </p:column>
+                             <p:column headerText="Área de Conhecimento">
+                                 <h:outputText value="#{monografiaBean.obterAreaConhecimento(monografia.areaconhecimento.id)}" />
+                            </p:column>
+                 
+                            <p:column headerText="Curso">
+                                <h:outputText value="#{monografiaBean.obterNomeCurso(monografia.curso.id)}" />
+                            </p:column>
+                 
+                            <p:column headerText="Arquivo">
+                                <p:commandLink value="Descarregar" ajax="false">
+                                    <p:fileDownload value="#{monografiaBean.obterArquivo(monografia)}" />
+                                </p:commandLink>
+                            </p:column>
 
-        <p:menubar styleClass="ui-widget-header">
-            <div class="ui-menubar-logo">
-                <p:graphicImage library="imagens" name="logo.png" width="30" height="30"/>
-            </div>
+                                  
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Actualizar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                                    <f:setPropertyActionListener target="#{monografiaBean.monografia}" value="#{monografia}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar">
+                                    <f:setPropertyActionListener target="#{monografiaBean.monografia}" value="#{monografia}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+        
+        
+        <h:form id="formCadastrar" enctype="multipart/form-data">
+                        <p:dialog id="dlgAgregar" header="Cadastrar Monografia" widgetVar="moldalCadastrar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid class="tbl" columns="2" style="margin: 0 auto;">                                
+                               
+                                <p:outputLabel for="titulo" value="Título:" />
+                                <p:inputText id="titulo" value="#{monografiaBean.monografia.titulo}" required="true" />
 
-<p:submenu label="Monografia" icon="pi pi-fw pi-file">
-    <p:submenu label="Opções" icon="pi pi-fw pi-plus">
-        <p:menuitem value="Adicionar" icon="pi pi-fw pi-plus-circle" action="#{bean.adicionar}"/>
-        <p:menuitem value="Atualizar" icon="pi pi-fw pi-pencil" action="#{bean.atualizar}"/>
-        <p:menuitem value="Apagar" icon="pi pi-fw pi-trash" action="#{bean.apagar}"/>
-        <p:menuitem value="Listar" icon="pi pi-fw pi-list" action="#{bean.listar}"/>
-    </p:submenu>
-</p:submenu>
+                                <p:outputLabel for="assunto" value="Assunto:" />
+                                <p:inputText id="assunto" value="#{monografiaBean.monografia.assunto}" required="true" />
 
+                                <p:outputLabel for="autor" value="Autor:" />
+                                <p:inputText id="autor" value="#{monografiaBean.monografia.autor}" required="true" />
 
-            <p:submenu label="Navegar" icon="pi pi-fw pi-pencil">
-                <p:menuitem value="Titulo" icon="pi pi-fw pi-align-left"/>
-                <p:menuitem value="Autor" icon="pi pi-fw pi-align-right"/>
-                <p:menuitem value="Departamento" icon="pi pi-fw pi-align-center"/>
-                <p:menuitem value="Assunto" icon="pi pi-fw pi-align-justify"/>
-            </p:submenu>
+                                <p:outputLabel for="dataPublicacao" value="Data de Publicação:" />
+                                <p:calendar id="dataPublicacao" value="#{monografiaBean.monografia.dataPublicacao}" pattern="dd/MM/yyyy" required="true" />
 
-            <p:submenu label="Usuarios" icon="pi pi-fw pi-user">
-                <p:menuitem value="Novo" icon="pi pi-fw pi-user-plus"/>
-                <p:menuitem value="Apagar" icon="pi pi-fw pi-user-minus"/>
-                <p:submenu label="Pesquisar" icon="pi pi-fw pi-users">
-                    
-                </p:submenu>
-            </p:submenu>
+                                <p:outputLabel for="idAreaConhecimento" value="ID da Área de Conhecimento:" />
+                                <p:inputText id="idAreaConhecimento" value="#{monografiaBean.idAreaConhecimento}" required="true" />
 
-            <p:divider layout="vertical"/>
+                                <p:outputLabel for="idCurso" value="ID do Curso:" />
+                                <p:inputText id="idCurso" value="#{monografiaBean.idCurso}" required="true" />
 
-            <f:facet name="options">
-                <div class="ui-input-icon-left mr-2">
-                    <i class="pi pi-fw pi-search" />
-                    <p:inputText placeholder="Buscar no repositório"/>
-                </div>
-                <p:button value="Logout" icon="pi pi-fw pi-sign-out" styleClass="ui-button-info"/>
-            </f:facet>
-        </p:menubar>
-    </h:form>
-</div>
+                              
+                                <p:outputLabel for="monografia" value="Upload da Monografia:" />
+                                <input type="file" id="fileInput" />
+                                 <h:inputHidden id="monografia" />
 
+                            </p:panelGrid>
+                            
+                            <p:commandButton class="blue-div-p"   value="Guardar" actionListener="#{monografiaBean.cadastrarMonografia()}" onclick="convertFileToArray();" update=":formListado:tablaMonografias" oncomplete="PF('moldalCadastrar').hide();"/>
+                            <p:commandButton class="red-div-p"   value="Cancelar" onclick="PF('moldalCadastrar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+        <!-- Modal para Actualizar -->
+                    <h:form id="formModificar" enctype="multipart/form-data">
+                        <p:dialog id="dlgModificar" header="Modificar Monografia" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid class="tbl" columns="2" style="margin: 0 auto;">                                
+                                <p:outputLabel for="actualizar_titulo" value="Título:" />
+                                <p:inputText id="actualizar_titulo" value="#{monografiaBean.monografia.titulo}" required="true" />
+
+                                <p:outputLabel for="actualizar_assunto" value="Assunto:" />
+                                <p:inputText id="actualizar_assunto" value="#{monografiaBean.monografia.assunto}" required="true" />
+
+                                <p:outputLabel for="actualizar_autor" value="Autor:" />
+                                <p:inputText id="actualizar_autor" value="#{monografiaBean.monografia.autor}" required="true" />
+
+                                <p:outputLabel for="actualizar_dataPublicacao" value="Data de Publicação:" />
+                                <p:calendar id="actualizar_dataPublicacao" value="#{monografiaBean.monografia.dataPublicacao}" pattern="dd/MM/yyyy" required="true" />
+
+                                <p:outputLabel for="actualizar_idAreaConhecimento" value="ID da Área de Conhecimento:" />
+                                <p:inputText id="actualizar_idAreaConhecimento" value="#{monografiaBean.idAreaConhecimento}" required="true" />
+
+                                <p:outputLabel for="actualizar_idCurso" value="ID do Curso:" />
+                                <p:inputText id="actualizar_idCurso" value="#{monografiaBean.idCurso}" required="true" />
+
+                              
+                                <p:outputLabel for="actualizar_monografia" value="Upload da Monografia:" />
+                                <input type="file" id="actualizar_fileInput" />
+                                 <h:inputHidden id="actualizar_monografia" />
+
+                                
+                            </p:panelGrid>
+                            <p:commandButton class="blue-div-p"  value="Guardar" actionListener="#{monografiaBean.modificarMonografia()}" onclick="actualizar_convertFileToArray();" update=":formListado:tablaMonografias" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton class="red-div-p"  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+                    <h:form id="formEliminar">
+                        <p:dialog class="tbl" id="dlgEliminar" header="Eliminar Monografia" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Deseja eliminar este registo?"/>
+                            <p:commandButton class="blue-div-p"  value="Sim" actionListener="#{monografiaBean.eliminarMonografia()}" update=":formListado:tablaMonografias" oncomplete="PF('dialogoEliminar').hide();" style="margin-left: 10px"/>
+                            <p:commandButton class="red-div-p"  value="Nao" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+        
     </h:body>
 </html>
 
