@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Gestão de Monografias: Área de Conheccimento</title>
+         <style>
+          .blue-div {
+                background-color: skyblue;
+                text-align: center;
+                padding-bottom: 5px;
+                padding-top: 5px;
+                margin-bottom: 10px;
+            }
+            
+            .blue-div-p {
+                background-color: skyblue !important;
+                text-align: center !important;
+                padding-bottom: 5px !important;
+                padding-top: 5px !important;
+                margin-bottom: 7px !important;
+                margin-right: 10px !important;
+            }
+            
+            .red-div-p{
+                background-color: crimson !important;
+                text-align: center !important;
+                padding-bottom: 5px !important;
+                padding-top: 5px !important;
+                margin-bottom: 7px !important;
+                margin-right: 10px !important;
+            }
+            
+            .tbl{
+                margin-bottom: 5px !important;
+            }
+
+        </style>
+        
+    </h:head>
+    <h:body>
+        <div class="blue-div">
+            <h1>Sistema de Gestão de Monografias</h1>
+        </div>
+        
+        <h:form>
+            <p:commandButton class="blue-div-p" value="Cadastrar Áreas de Conhecimento" actionListener="#{areaConhecimentoBean.limpiarAreaconhecimento()}" oncomplete="PF('moldalCadastrar').show();" update=":formCadastrar"/>
+            <p:commandButton class="blue-div-p" id="btnCursos" value="Gestão Monografias " action="index.xhtml" ajax="false" />
+            <p:commandButton class="blue-div-p" id="btnAreas" value="Gestão Cursos " action="CRUD_Curso.xhtml" ajax="false" />
+
+            <p:separator/>
+        </h:form>
+        
+         <h:form id="formListado">
+             <h2>SGM - Tabela de Áreas de Conhecimento</h2>
+             <p:dataTable id="tablaAreaConhecimentos" paginator="true" paginatorPosition="bottom" rows="10" var="AreaConhecimento" value="#{areaConhecimentoBean.listaAreaconhecimentos}" emptyMessage="Não existem AreaConhecimentos Registadas">
+                            
+                            <p:column headerText="ID">
+                                <h:outputText value="#{AreaConhecimento.id}" />
+                            </p:column>
+                            <p:column headerText="Título">
+                                <h:outputText value="#{AreaConhecimento.nome}" />
+                            </p:column>
+                              
+                            <p:column headerText="MODIFICAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-pencil" title="Actualizar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                                    <f:setPropertyActionListener target="#{areaConhecimentoBean.areaconhecimento}" value="#{AreaConhecimento}"/>
+                                </p:commandButton>
+                            </p:column>
+                            <p:column headerText="ELIMINAR" style="text-align: center">
+                                <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar">
+                                    <f:setPropertyActionListener target="#{areaConhecimentoBean.areaconhecimento}" value="#{AreaConhecimento}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+        
+        
+        <h:form id="formCadastrar">
+                        <p:dialog id="dlgAgregar" header="Cadastrar AreaConhecimento" widgetVar="moldalCadastrar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid class="tbl" columns="2" style="margin: 0 auto;">                                
+                               
+                                <p:outputLabel for="nome" value="Nome" />
+                                <p:inputText id="nome" value="#{areaConhecimentoBean.areaconhecimento.nome}" required="true" />
+
+                            </p:panelGrid>
+                            
+                            <p:commandButton class="blue-div-p" value="Guardar" actionListener="#{areaConhecimentoBean.cadastrarAreaconhecimento()}" update=":formListado:tablaAreaConhecimentos" oncomplete="PF('moldalCadastrar').hide();"/>
+                            <p:commandButton class="red-div-p" value="Cancelar" onclick="PF('moldalCadastrar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+        <!-- Modal para Actualizar -->
+                    <h:form id="formModificar">
+                        <p:dialog id="dlgModificar" header="Actualizar AreaConhecimento" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <p:panelGrid class="tbl" columns="2" style="margin: 0 auto;">                                
+                               
+                                <p:outputLabel for="novo_nome" value="Mome" />
+                                <p:inputText id="novo_nome" value="#{areaConhecimentoBean.areaconhecimento.nome}" required="true" />
+
+                               
+                            </p:panelGrid>
+                            <p:commandButton class="blue-div-p" value="Guardar" actionListener="#{areaConhecimentoBean.modificarAreaconhecimento()}" update=":formListado:tablaAreaConhecimentos" oncomplete="PF('dialogoModificar').hide();"/>
+                            <p:commandButton class="red-div-p" value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+
+                    <h:form id="formEliminar">
+                        <p:dialog id="dlgEliminar" header="Eliminar Area de Conhecimento" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                            <h:outputText value="Deseja eliminar este registo?"/>
+                            <p:commandButton class="blue-div-p" value="Sim" actionListener="#{areaConhecimentoBean.eliminarAreaconhecimento()}" update=":formListado:tablaAreaConhecimentos" oncomplete="PF('dialogoEliminar').hide();" style="margin-left: 10px;"/>
+                            <p:commandButton class="red-div-p" value="Nao" onclick="PF('dialogoEliminar').hide();"/>
+                        </p:dialog>
+                    </h:form>
+        
+    </h:body>
+</html>
+

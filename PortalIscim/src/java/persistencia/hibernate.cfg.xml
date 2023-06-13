@@ -45,9 +45,9 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/gestao_rpmonografia?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-    <mapping resource="Modelo/entidade/Usuario.hbm.xml"/>
-    <mapping resource="Modelo/entidade/Monografia.hbm.xml"/>
-    <mapping resource="Modelo/entidade/Areaconhecimento.hbm.xml"/>
-    <mapping resource="Modelo/entidade/Curso.hbm.xml"/>
+    <mapping resource="modelo/entidade/Monografia.hbm.xml"/>
+    <mapping resource="modelo/entidade/Usuario.hbm.xml"/>
+    <mapping resource="modelo/entidade/Areaconhecimento.hbm.xml"/>
+    <mapping resource="modelo/entidade/Curso.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
